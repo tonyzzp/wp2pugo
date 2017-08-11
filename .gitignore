@@ -1,4 +1,4 @@
 .gradle
 .idea
 out
-test_dir
+dest
