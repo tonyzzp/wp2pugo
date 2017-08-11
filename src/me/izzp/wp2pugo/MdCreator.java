@@ -13,7 +13,7 @@ public class MdCreator {
             calendar.setTime(article.date);
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
-            dir = new File(dir, String.format("%4d/%2d", year, month + 1));
+            dir = new File(dir, String.format("%04d/%02d", year, month + 1));
         }
         if (!Util.isEmpty(article.slug)) {
             file = new File(dir, article.slug + ".md");
@@ -25,7 +25,7 @@ public class MdCreator {
                 file = new File(dir, System.currentTimeMillis() + ".md");
             }
         }
-        if (dir.exists()) {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
         if (!file.exists()) {
@@ -53,10 +53,17 @@ public class MdCreator {
             writer.write("\r\n");
         }
         writer.write("```\r\n\r\n");
+        if (!Util.isEmpty(article.excerpt)) {
+            writer.write(article.excerpt);
+            writer.write("\r\n\r\n<!--more-->\r\n\r\n");
+        }
         writer.write(article.content);
+        writer.flush();
+        writer.close();
     }
 
     private static void writeAttr(BufferedWriter writer, String key, String value) throws IOException {
+        value = value.replace("\"", "'").replace("\\", "/");
         writer.write(key);
         writer.write(" = \"");
         writer.write(value);

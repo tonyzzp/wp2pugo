@@ -25,6 +25,12 @@ public class Main {
         if (author != null) {
             System.out.println("博客作者:" + author.name + "  " + author.email);
         }
+        System.out.println("正在生成md文件...");
+        for (Article article : parser.getArticles()) {
+            System.out.println("生成>" + article.title);
+            MdCreator.create(article, author);
+        }
+        System.out.println("生成完成");
     }
 
     private static String checkArgs(String[] args) {
