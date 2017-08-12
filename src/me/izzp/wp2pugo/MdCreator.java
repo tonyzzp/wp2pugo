@@ -19,7 +19,7 @@ public class MdCreator {
             file = new File(dir, article.slug + ".md");
         } else {
             if (article.date != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                 file = new File(dir, sdf.format(article.date) + ".md");
             } else {
                 file = new File(dir, System.currentTimeMillis() + ".md");
