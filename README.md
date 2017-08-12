@@ -11,3 +11,5 @@ java -jar wp2pugo.jar wp.xml
 同时如果文章里链接的有博客域名下的其他资源(图片、文件等)，也会自动下载下来，放到media目录内
 
 ## 下载
+
+[wp2pugo.jar](https://github.com/tonyzzp/wp2pugo/raw/master/wp2pugo.jar)
