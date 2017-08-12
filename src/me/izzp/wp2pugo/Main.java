@@ -5,6 +5,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws ParserConfigurationException, WrongFormatException, SAXException, IOException {
@@ -30,7 +33,48 @@ public class Main {
             System.out.println("生成>" + article.title);
             MdCreator.create(article, author);
         }
-        System.out.println("生成完成");
+        System.out.println("生成md完成");
+        System.out.println("开始寻找需要下载的资源文件");
+        List<String> all = new ArrayList<>();
+        for (Article article : parser.getArticles()) {
+            List<String> list = ResourceDownloader.resolveLinks(article);
+            all.addAll(list);
+        }
+        String baseUrl = parser.getBaseUrl();
+        if (baseUrl != null) {
+            baseUrl = baseUrl.replace("http://", "").replace("https://", "");
+        }
+        Iterator<String> it = all.iterator();
+        while (it.hasNext()) {
+            String url = it.next();
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                if (!url.contains(baseUrl)) {
+                    it.remove();
+                }
+            }
+        }
+        System.out.println("共找到需要下载的资源个数 : " + all.size());
+        System.out.println("开始下载");
+        for (String url : all) {
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = parser.getBaseUrl() + url;
+            }
+            System.out.print("下载 : " + url);
+            int retry = 3;
+            boolean success = false;
+            while (!success && retry > 0) {
+                try {
+                    ResourceDownloader.downloadResource(url);
+                    success = true;
+                    System.out.print("  成功");
+                } catch (Exception e) {
+                    retry--;
+                    System.out.print("  失败，开始第 " + (3 - retry) + " 次重试");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("全部完成！");
     }
 
     private static String checkArgs(String[] args) {

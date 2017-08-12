@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class MdCreator {
     public static void create(Article article, Author author) throws IOException {
-        File dir = new File("dest");
+        File dir = new File("post");
         File file = null;
         if (article.date != null) {
             Calendar calendar = Calendar.getInstance();

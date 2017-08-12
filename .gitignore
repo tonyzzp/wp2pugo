@@ -1,4 +1,5 @@
-.gradle
 .idea
 out
-dest
+work_dir
+build
+classes

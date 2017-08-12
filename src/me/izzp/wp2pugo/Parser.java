@@ -20,6 +20,8 @@ class Parser {
     private Author author;
     private List<Article> articles = new ArrayList<>();
     private int articleErrors = 0;
+    private String baseSiteUrl;
+    private String link;
 
     public void parse(File file) throws IOException, ParserConfigurationException, SAXException, WrongFormatException {
         InputStream in = new FileInputStream(file);
@@ -37,6 +39,8 @@ class Parser {
         if (root == null) {
             throw new WrongFormatException();
         }
+        link = XmlHelper.getElementText(root, "link");
+        baseSiteUrl = XmlHelper.getElementText(root, "wp:base_site_url");
         author = findAuthor(root);
         NodeList nodeList = root.getElementsByTagName("item");
         if (nodeList == null || nodeList.getLength() == 0) {
@@ -125,5 +129,13 @@ class Parser {
 
     public List<Article> getArticles() {
         return articles;
+    }
+
+    public String getBaseUrl() {
+        if (!Util.isEmpty(baseSiteUrl)) {
+            return baseSiteUrl;
+        } else {
+            return link;
+        }
     }
 }
