@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="wp2pugo:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="wp2pugo.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="wp2pugo_main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.10.3/b842f960942503cf1abbcc8c173a7f2c19d43726/jsoup-1.10.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
